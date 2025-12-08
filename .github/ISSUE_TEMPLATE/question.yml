@@ -1,0 +1,25 @@
+name: Question
+description: Ask a question about freecube
+title: "[QUESTION] "
+labels: ["question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        For general discussion, consider using [GitHub Discussions](../../discussions) instead!
+  
+  - type: textarea
+    id: question
+    attributes:
+      label: Question
+      description: What would you like to know?
+      placeholder: Ask your question
+    validations:
+      required: true
+  
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: Any additional context that might help us answer
+      placeholder: Provide context for your question
