@@ -27,7 +27,7 @@ We believe preservation should be **free** (as in freedom), **legal**, and **tra
 
 **Respecting Rights**: We do not condone or facilitate piracy. Users are responsible for legally obtaining their own game files from legitimately purchased copies. This repository will not ever direct users on where to locate or otherwise attain such content. 
 
-**Transparency**: All development happens in the open. Every commit, every decision, every design choice is documented and available for audit.
+**Transparency**: All development happens in the open. Every commit, every decision, every design choice is documented and available for audit. All of our used sources are also cited where possible in a [markdown file](./docs/sources.md)
 
 **License**: [GPLv3](./LICENSE) - ensuring this work remains free and open forever.
 
