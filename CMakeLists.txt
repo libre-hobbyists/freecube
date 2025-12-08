@@ -7,7 +7,7 @@ cmake_minimum_required(VERSION 4.1.0)
 
 project(freecube
   VERSION 0.0.1
-  DESCRIPTION "A free, open-source Gamecube emulator."
+  DESCRIPTION "A free, open-source GameCube emulator."
   LANGUAGES CXX C
 )
 
@@ -28,24 +28,24 @@ option(FREECUBE_PEDANTIC "Compiles with maximum errorchecking, flags all warning
 
 if(FREECUBE_PEDANTIC)
   if(MSVC)
-    set_compile_options(/W4 /WX)
+    add_compile_options(/W4 /WX)
   else()
-    set_compile_options(-Wall -Wextra -Wpedantic -Werror)
+    add_compile_options(-Wall -Wextra -Wpedantic -Werror)
   endif()
 else()
   if(MSVC)
-    set_compile_options(/W2)
+    add_compile_options(/W2)
   else()
-    set_compile_options(-Wall -Wextra)
+    add_compile_options(-Wall -Wextra)
   endif()
 endif()
 
 include_directories(${CMAKE_SOURCE_DIR}/include)
 
 set(FREECUBE_SOURCES
-  # Add sources as they're created
+  ${CMAKE_SOURCE_DIR}/src/main.cpp
 )
 
 set(FREECUBE_HEADERS
-  # Add headers as they're created
+  ${CMAKE_SOURCE_DIR}/include/util/log.hpp
 )
