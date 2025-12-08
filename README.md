@@ -10,7 +10,7 @@ freecube is a clean-room GameCube emulator developed entirely through legal reve
 
 ## Why FreeCube?
 
-Gaming history deserves preservation. As official support for older consoles fades, emulation becomes crucial for:
+Gaming history deserves preservation. As official support for older consoles fades, as hardware degrades and replacements become harder to make, emulation becomes crucial for:
 
 - *Preservation*: Keeping games playable as hardware ages and fails
 - *Accessibility*: Making gaming history available to new generations
@@ -37,7 +37,7 @@ We believe preservation should be **free** (as in freedom), **legal**, and **tra
 
 ### For Users
 
-Unfortunately, FreeCube is not yet in a state that it can be used. As of 7 December, 2025; there is no source code. No code, no emulator. This section will be updated as needed once this changes!
+Unfortunately, FreeCube is not yet in a state that it can be used. As of 7 December, 2025; there is no **emulator** source code. No code, no emulator. This section will be updated as needed once this changes!
 
 ### For Developers
 
@@ -52,7 +52,7 @@ C++ developers, we need you! Whether you're experienced in emulator development 
 - Build system and CI/CD
 
 **Tech Stack:**
-- **Language**: C++17 / C17 (as needed, C++ is preferred)
+- **Language**: C++17 / C17 (C++ is preferred but C is accepted)
 - **Build System**: CMake (at least 4.1.0)
 - **Testing**: (TBD - suggestions welcome and encouraged!)
 
