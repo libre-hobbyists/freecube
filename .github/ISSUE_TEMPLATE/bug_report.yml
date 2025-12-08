@@ -1,0 +1,77 @@
+name: Bug Report
+description: Report a bug or unexpected behavior
+title: "[BUG] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug!
+  
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: A clear description of what the bug is
+      placeholder: Tell us what happened
+    validations:
+      required: true
+  
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to Reproduce
+      description: How can we reproduce this issue?
+      placeholder: |
+        1. 
+        2. 
+        3. 
+    validations:
+      required: true
+  
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What should happen?
+    validations:
+      required: true
+  
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: What actually happens?
+    validations:
+      required: true
+  
+  - type: input
+    id: os
+    attributes:
+      label: Operating System
+      placeholder: e.g., Windows 11, Ubuntu 22.04, macOS 13
+    validations:
+      required: true
+  
+  - type: input
+    id: compiler
+    attributes:
+      label: Compiler
+      placeholder: e.g., GCC 11.2, Clang 14, MSVC 2022
+    validations:
+      required: true
+  
+  - type: input
+    id: version
+    attributes:
+      label: freecube Version/Commit
+      placeholder: e.g., commit hash or release tag
+    validations:
+      required: true
+  
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional Context
+      description: Any other relevant info, logs, screenshots, etc.
+      placeholder: Add any other context about the problem here
