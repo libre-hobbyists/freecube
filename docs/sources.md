@@ -2,6 +2,8 @@
 
 These are our sources, where we get the info we need to make this project possible. All sources are publicly available on the open internet and are not restricted or proprietary in any way. As you find sources, you're welcome to add them here.
 
+This also includes other GameCube or PowerPC related projects as they could provide invaluable technical knowledge.
+
  - [PowerPC 750CL User's Manual (1.0)](https://fail0verflow.com/media/files/ppc_750cl.pdf)
  - [PowerPC 750CL Datasheet (2.1)](https://datasheets.chipdb.org/IBM/PowerPC/750/PowerPC-750CL.pdf)
  - [PowerPC 750CL Instruction Set](https://github.com/riptl/ppc750cl/blob/master/isa.yaml)
@@ -9,3 +11,6 @@ These are our sources, where we get the info we need to make this project possib
  - [PowerPC 750CX/CXe User's Manual (1.0)](https://www.cs.tufts.edu/comp/150PAT/arch/power/IBM-750cx-cxe_um.pdf)
  - [ATI "Flipper" GPU Specs](https://www.techpowerup.com/gpu-specs/gamecube-gpu.c1918)
  - [GameCube Architecture Analysis](https://www.copetti.org/writings/consoles/gamecube/)
+ - [Dolphin Emulator GitHub Repository](https://github.com/dolphin-emu/dolphin)
+ - [GameCube / Wii Decomp Toolkit](https://github.com/encounter/decomp-toolkit)
+ - [GC Backup Manager](github.com/AxionDrak/GameCube-Backup-Manager)

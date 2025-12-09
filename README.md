@@ -25,7 +25,7 @@ We believe preservation should be **free** (as in freedom), **legal**, and **tra
 
 **Clean Room Development**: FreeCube is built entirely through legitimate reverse engineering. We do not use leaked source code, proprietary SDKs, or any copyrighted materials from Nintendo or any of its related companies. Contributors to this project are expected to do the same when contributing code.
 
-**Respecting Rights**: We do not condone or facilitate piracy. Users are responsible for legally obtaining their own game files from legitimately purchased copies. This repository will not ever direct users on where to locate or otherwise attain such content. 
+**Respecting Rights**: We do not condone or facilitate piracy. Users are responsible for legally obtaining their own game files from legitimately purchased copies. This repository will not ever direct users on where to locate or otherwise attain such content.  This also extends to confidential or otherwise proprietary source code from Nintendo or other GameCube publishers/developers. **Do not contribute source code that is still considered confidential!**
 
 **Transparency**: All development happens in the open. Every commit, every decision, every design choice is documented and available for audit. All of our used sources are also cited where possible in a [markdown file](./docs/sources.md)
 
