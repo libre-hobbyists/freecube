@@ -53,6 +53,14 @@ set(FREECUBE_HEADERS
   ${CMAKE_SOURCE_DIR}/include/dol/validate.hpp
   ${CMAKE_SOURCE_DIR}/include/dol/dol_loader.hpp
   ${CMAKE_SOURCE_DIR}/include/loader/iso.hpp
+  ${CMAKE_SOURCE_DIR}/include/loader/loader.hpp
 )
+
+# Handy compile time definitions
+string(TIMESTAMP FREECUBE_BUILD_TIME "%Y-%m-%dT%H:%M:%SZ" UTC)
+
+add_compile_definitions(FREECUBE_CMAKE_SYSTEM_TARGET="${CMAKE_SYSTEM_NAME}")
+add_compile_definitions(FREECUBE_CMAKE_ARCH_TARGET="${CMAKE_SYSTEM_PROCESSOR}")
+add_compile_definitions(FREECUBE_CMAKE_BUILD_TIME="${FREECUBE_BUILD_TIME}")
 
 add_executable(freecube ${FREECUBE_SOURCES} ${FREECUBE_HEADERS})

@@ -17,6 +17,11 @@ int main(int argc, char **argv) {
     using namespace freecube::ISOLoader;
     using namespace freecube::dol;
 
+    LOG_INFO("FreeCube is starting...");
+    LOG_INFO("Built at: ", FREECUBE_CMAKE_BUILD_TIME);
+    LOG_INFO("Target: ", FREECUBE_CMAKE_SYSTEM_TARGET, " (", FREECUBE_CMAKE_ARCH_TARGET, ")");
+
+
     std::string iso_path;
 
     for (int i = 1; i < argc; i++) {
