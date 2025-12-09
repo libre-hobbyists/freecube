@@ -61,7 +61,7 @@ namespace freecube::util {
         static bool show_locations;
     };
 
-    inline LogLevel LogCFG::min_level     = LogLevel::FC_TRACE;
+    inline LogLevel LogCFG::min_level     = LogLevel::FC_DEBUG;
     inline bool LogCFG::use_colours       = true;
     inline bool LogCFG::use_timestamps    = true;
     inline bool LogCFG::show_locations    = false;
