@@ -247,7 +247,7 @@ namespace freecube::ISOLoader {
             // Read DOL offset from disc header at 0x420
             uint32_t dol_offset = read_be32(m_data.data() + 0x420);
 
-            LOG_INFO("DOL offset from header: 0x{:08X}", dol_offset);
+            LOG_INFO("DOL offset from header: ", dol_offset);
 
             // DOL header is 0x100 bytes, read it first to get total size
             if (dol_offset + 0x100 > m_data.size()) {
