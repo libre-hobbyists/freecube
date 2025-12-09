@@ -239,6 +239,34 @@ namespace freecube::ISOLoader {
             LOG_INFO("---- END FST DUMP ----");
         }
 
+        std::vector<uint8_t> get_dol() const {
+            if (m_data.size() < 0x424) {
+                throw std::runtime_error("ISO too small to contain DOL offset");
+            }
+
+            // Read DOL offset from disc header at 0x420
+            uint32_t dol_offset = read_be32(m_data.data() + 0x420);
+
+            LOG_INFO("DOL offset from header: 0x{:08X}", dol_offset);
+
+            // DOL header is 0x100 bytes, read it first to get total size
+            if (dol_offset + 0x100 > m_data.size()) {
+                throw std::runtime_error("DOL offset out of bounds");
+            }
+
+            // For now, just return the first ~4MB or calculate actual size from DOL header
+            uint32_t dol_size = 0x400000; // 4MB should be enough for most DOLs
+
+            if (dol_offset + dol_size > m_data.size()) {
+                dol_size = m_data.size() - dol_offset;
+            }
+
+            return std::vector<uint8_t>(
+                m_data.begin() + dol_offset,
+                m_data.begin() + dol_offset + dol_size
+            );
+        }
+
     private:
         std::vector<std::uint8_t> m_data;
 
