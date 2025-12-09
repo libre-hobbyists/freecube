@@ -12,8 +12,17 @@
 #endif
 
 #include "util/log.hpp"
+#include "loader/loader.hpp"
 #include <fstream>
+#include <iostream>
 
 int main() {
     LOG_DEBUG("System starting up...");
+
+    freecube::ISOLoader::ISOImage iso("loz_ww.iso");
+
+    const uint8_t *boot = iso.data().data();
+
+    std::cout << boot << std::endl;
+    return 0;
 }
