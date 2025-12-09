@@ -1,11 +1,3 @@
-/**
- * @file include/util/log.hpp
- * @brief Logging system for freecube
- * 
- * Provides compile-time configurable logging with multiple severity levels.
- * This header is self contained and does not have a CXX implementation file.
- */
-
 #ifndef FREECUBE_UTIL_LOG_HPP
 #define FREECUBE_UTIL_LOG_HPP
 
@@ -18,9 +10,6 @@
 
 namespace freecube::util {
 
-    /**
-     * @note LogLevels are prefixed with `FC_` now to avoid collision with Win32 APIs.
-     */
     enum class LogLevel {
         FC_TRACE,
         FC_DEBUG,
@@ -30,9 +19,6 @@ namespace freecube::util {
         FC_CRITICAL
     };
 
-    /**
-     * @brief Converts LogLevel enum to string repr
-     */
     constexpr std::string_view log_level_to_string(LogLevel level) {
         switch (level) {
             case LogLevel::FC_TRACE:    return "TRACE";
@@ -45,7 +31,6 @@ namespace freecube::util {
         return "???";
     }
 
-    // Colour codes
     namespace Colours {
         constexpr const char *RESET_FC    = "\033[0m";
         constexpr const char *TRACE_FC    = "\033[37m";
@@ -81,59 +66,51 @@ namespace freecube::util {
     inline bool LogCFG::use_timestamps    = true;
     inline bool LogCFG::show_locations    = false;
 
-    /**
-     * @brief Core log implementation
-     */
     class Logger {
     public:
         template<LogLevel Level, typename... Args>
         static void log(const char* file, int line, Args&&... args) {
             if (Level < LogCFG::min_level)
                 return;
-
             write_log<Level>(file, line, std::forward<Args>(args)...);
         }
 
     private:
-
-        // Generic fallback -> just stream normally
+        // Non-integral fallback
         template<typename T>
-        static void stream_arg(std::ostringstream& oss, T&& value) {
+        static std::enable_if_t<!std::is_integral_v<std::decay_t<T>>, void>
+        stream_arg(std::ostringstream& oss, T&& value) {
             oss << std::forward<T>(value);
         }
 
-        // Integral types -> pretty hex (0xDEADBEEF style)
+        // Integral pretty hex
         template<typename T>
-        static void stream_arg(std::ostringstream& oss, T value,
-                               std::enable_if_t<std::is_integral_v<T>, int> = 0)
-        {
+        static std::enable_if_t<std::is_integral_v<std::decay_t<T>>, void>
+        stream_arg(std::ostringstream& oss, T value) {
+            using U = std::make_unsigned_t<std::decay_t<T>>;
+            U v = static_cast<U>(value);
             oss << "0x"
                 << std::hex << std::uppercase
-                << std::setw(sizeof(T) * 2)
+                << std::setw(sizeof(U) * 2)
                 << std::setfill('0')
-                << value
+                << v
                 << std::dec;
         }
 
-        // Core log writing
         template<LogLevel Level, typename... Args>
         static void write_log(const char* file, int line, Args&&... args) {
             std::ostringstream oss;
 
-            // Timestamp
             if (LogCFG::use_timestamps) {
                 auto now = std::chrono::system_clock::now();
                 auto time = std::chrono::system_clock::to_time_t(now);
                 auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(
-                    now.time_since_epoch()
-                ) % 1000;
-
+                    now.time_since_epoch()) % 1000;
                 oss << "[" << std::put_time(std::localtime(&time), "%H:%M:%S")
                     << "." << std::setw(3) << std::setfill('0') << ms.count()
                     << "] ";
             }
 
-            // Colour + level
             if (LogCFG::use_colours)
                 oss << log_level_colour(Level);
 
@@ -144,16 +121,12 @@ namespace freecube::util {
 
             oss << " ";
 
-            // Source location (optional)
             if (LogCFG::show_locations)
                 oss << "[" << file << ":" << line << "] ";
 
-            // Type aware, woo!
-            ((stream_arg(oss, std::forward<Args>(args))), ...);
-
+            (stream_arg(oss, std::forward<Args>(args)), ...);
             oss << "\n";
 
-            // Output
             if constexpr (Level >= LogLevel::FC_ERROR) {
                 std::cerr << oss.str();
                 std::cerr.flush();
@@ -166,29 +139,17 @@ namespace freecube::util {
 
 } // namespace freecube::util
 
-// Macros
 #define LOG_TRACE(...) \
-    ::freecube::util::Logger::log<::freecube::util::LogLevel::FC_TRACE>( \
-        __FILE__, __LINE__, __VA_ARGS__)
-
+    ::freecube::util::Logger::log<::freecube::util::LogLevel::FC_TRACE>(__FILE__, __LINE__, __VA_ARGS__)
 #define LOG_DEBUG(...) \
-    ::freecube::util::Logger::log<::freecube::util::LogLevel::FC_DEBUG>( \
-        __FILE__, __LINE__, __VA_ARGS__)
-
+    ::freecube::util::Logger::log<::freecube::util::LogLevel::FC_DEBUG>(__FILE__, __LINE__, __VA_ARGS__)
 #define LOG_INFO(...) \
-    ::freecube::util::Logger::log<::freecube::util::LogLevel::FC_INFO>( \
-        __FILE__, __LINE__, __VA_ARGS__)
-
+    ::freecube::util::Logger::log<::freecube::util::LogLevel::FC_INFO>(__FILE__, __LINE__, __VA_ARGS__)
 #define LOG_WARN(...) \
-    ::freecube::util::Logger::log<::freecube::util::LogLevel::FC_WARN>( \
-        __FILE__, __LINE__, __VA_ARGS__)
-
+    ::freecube::util::Logger::log<::freecube::util::LogLevel::FC_WARN>(__FILE__, __LINE__, __VA_ARGS__)
 #define LOG_ERROR(...) \
-    ::freecube::util::Logger::log<::freecube::util::LogLevel::FC_ERROR>( \
-        __FILE__, __LINE__, __VA_ARGS__)
-
+    ::freecube::util::Logger::log<::freecube::util::LogLevel::FC_ERROR>(__FILE__, __LINE__, __VA_ARGS__)
 #define LOG_CRITICAL(...) \
-    ::freecube::util::Logger::log<::freecube::util::LogLevel::FC_CRITICAL>( \
-        __FILE__, __LINE__, __VA_ARGS__)
+    ::freecube::util::Logger::log<::freecube::util::LogLevel::FC_CRITICAL>(__FILE__, __LINE__, __VA_ARGS__)
 
 #endif
