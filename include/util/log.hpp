@@ -137,7 +137,7 @@ namespace freecube::util {
             }
             oss << "[" << log_level_to_string(Level) << "]";
             if (LogCFG::use_colours) {
-                oss << Colours::RESET;
+                oss << Colours::RESET_FC;
             }
             oss << " ";
 
@@ -151,7 +151,7 @@ namespace freecube::util {
             oss << "\n";
 
             // Output to appropriate stream
-            if constexpr (Level >= LogLevel::ERROR) {
+            if constexpr (Level >= LogLevel::FC_ERROR) {
                 std::cerr << oss.str();
                 std::cerr.flush();
             } else {
