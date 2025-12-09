@@ -13,7 +13,7 @@ Once the project is opened in Visual Studio (or your chosen IDE with cmake and a
 
 ```sh
 # You can choose your own -G generator! (cmake_policy flag is required!)
-cmake -S . -B build -G Ninja <custom flags> -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+cmake -S . -B build -G Ninja <config flags> -DCMAKE_POLICY_VERSION_MINIMUM=3.5
 ```
 
 > [!NOTE]
@@ -29,3 +29,26 @@ ninja
 ## Building on Linux (x86_64)
 
 ## Building on MacOS (arm64)
+
+Building on a MacOS system is straightforward. You'll need the `homebrew` utility installed alongside `cmake`. If you do not have Homebrew, you can install it from **[here](https://brew.sh/)** by following their insructions. Once brew is installed you'll want to install cmake and our recommended buildsystem, `ninja`
+
+> [!TIP]
+> MacOS comes with a clang-derived compiler called `AppleClang`, you do not need to install an extra compiler unless you want to!
+
+```sh
+brew install cmake
+brew install ninja
+```
+
+Configure the project:
+```sh
+cmake -S . -B build -G Ninja <config flags> -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+```
+
+Build:
+```sh
+cd build
+ninja
+```
+
+And in a few moments you'll have a ready-to-go arm64 copy of freecube!
