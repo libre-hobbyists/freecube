@@ -1,5 +1,5 @@
 /**
- * @file log.hpp
+ * @file include/util/log.hpp
  * @brief Logging system for freecube
  * 
  * Provides compile-time configurable logging with multiple severity levels.
@@ -17,53 +17,59 @@
 
 namespace freecube::util {
 
+    /**
+     * @note LogLevels are prefixed with `FC_` now to avoid collision with Win32 APIs.
+     */
     enum class LogLevel {
-        TRACE,
-        DEBUG,
-        INFO,
-        WARN,
-        ERROR,
-        CRITICAL
+        FC_TRACE,
+        FC_DEBUG,
+        FC_INFO,
+        FC_WARN,
+        FC_ERROR,
+        FC_CRITICAL
     };
 
     /**
      * @brief Converts LogLevel enum to string repr
+     * 
      */
     constexpr std::string_view log_level_to_string(LogLevel level) {
         switch (level) {
-            case LogLevel::TRACE:    return "TRACE";
-            case LogLevel::DEBUG:    return "DEBUG";
-            case LogLevel::INFO:     return "INFO";
-            case LogLevel::WARN:     return "WARN";
-            case LogLevel::ERROR:    return "ERROR";
-            case LogLevel::CRITICAL: return "CRITICAL";
+            case LogLevel::FC_TRACE:    return "TRACE";
+            case LogLevel::FC_DEBUG:    return "DEBUG";
+            case LogLevel::FC_INFO:     return "INFO";
+            case LogLevel::FC_WARN:     return "WARN";
+            case LogLevel::FC_ERROR:    return "ERROR";
+            case LogLevel::FC_CRITICAL: return "CRITICAL";
         }
         return "???";
     }
 
+    // Postfixed with FC for clarity
     namespace Colours {
-        constexpr const char *RESET    = "\033[0m";      // Reset to defaults
-        constexpr const char *TRACE    = "\033[37m";     // White
-        constexpr const char *DEBUG    = "\033[36m";     // Cyan
-        constexpr const char *INFO     = "\033[32m";     // Green
-        constexpr const char *WARN     = "\033[33m";     // Yellow
-        constexpr const char *ERROR    = "\033[31m";     // Red
-        constexpr const char *CRITICAL = "\033[1;31m";   // Bold Red
+        constexpr const char *RESET_FC    = "\033[0m";      // Reset to defaults
+        constexpr const char *TRACE_FC    = "\033[37m";     // White
+        constexpr const char *DEBUG_FC    = "\033[36m";     // Cyan
+        constexpr const char *INFO_FC     = "\033[32m";     // Green
+        constexpr const char *WARN_FC     = "\033[33m";     // Yellow
+        constexpr const char *ERROR_FC    = "\033[31m";     // Red
+        constexpr const char *CRITICAL_FC = "\033[1;31m";   // Bold Red
     }
 
     /**
      * @brief Get colour code for log level
+     * 
      */
     constexpr const char* log_level_colour(LogLevel level) {
         switch (level) {
-            case LogLevel::TRACE:    return Colours::TRACE;
-            case LogLevel::DEBUG:    return Colours::DEBUG;
-            case LogLevel::INFO:     return Colours::INFO;
-            case LogLevel::WARN:     return Colours::WARN;
-            case LogLevel::ERROR:    return Colours::ERROR;
-            case LogLevel::CRITICAL: return Colours::CRITICAL;
+            case LogLevel::FC_TRACE:    return Colours::TRACE_FC;
+            case LogLevel::FC_DEBUG:    return Colours::DEBUG_FC;
+            case LogLevel::FC_INFO:     return Colours::INFO_FC;
+            case LogLevel::FC_WARN:     return Colours::WARN_FC;
+            case LogLevel::FC_ERROR:    return Colours::ERROR_FC;
+            case LogLevel::FC_CRITICAL: return Colours::CRITICAL_FC;
         }
-        return Colours::RESET;
+        return Colours::RESET_FC;
     }
 
     /**
@@ -78,7 +84,7 @@ namespace freecube::util {
     };
 
     // Default configuration
-    inline LogLevel LogCFG::min_level = LogLevel::INFO;
+    inline LogLevel LogCFG::min_level = LogLevel::FC_TRACE;
     inline bool LogCFG::use_colours = true;
     inline bool LogCFG::use_timestamps = true;
     inline bool LogCFG::show_locations = false;
@@ -99,7 +105,7 @@ namespace freecube::util {
          */
         template<LogLevel Level, typename... Args>
         static void log(const char* file, int line, Args&&... args) {
-            if constexpr (Level >= LogLevel::INFO) {
+            if constexpr (Level >= LogLevel::FC_INFO) {
                 if (Level < LogCFG::min_level) {
                     return;
                 }
@@ -159,27 +165,27 @@ namespace freecube::util {
 
 // Convenience macros for logging
 #define LOG_TRACE(...) \
-    ::freecube::util::Logger::log<::freecube::util::LogLevel::TRACE>( \
+    ::freecube::util::Logger::log<::freecube::util::LogLevel::FC_TRACE>( \
         __FILE__, __LINE__, __VA_ARGS__)
 
 #define LOG_DEBUG(...) \
-    ::freecube::util::Logger::log<::freecube::util::LogLevel::DEBUG>( \
+    ::freecube::util::Logger::log<::freecube::util::LogLevel::FC_DEBUG>( \
         __FILE__, __LINE__, __VA_ARGS__)
 
 #define LOG_INFO(...) \
-    ::freecube::util::Logger::log<::freecube::util::LogLevel::INFO>( \
+    ::freecube::util::Logger::log<::freecube::util::LogLevel::FC_INFO>( \
         __FILE__, __LINE__, __VA_ARGS__)
 
 #define LOG_WARN(...) \
-    ::freecube::util::Logger::log<::freecube::util::LogLevel::WARN>( \
+    ::freecube::util::Logger::log<::freecube::util::LogLevel::FC_WARN>( \
         __FILE__, __LINE__, __VA_ARGS__)
 
 #define LOG_ERROR(...) \
-    ::freecube::util::Logger::log<::freecube::util::LogLevel::ERROR>( \
+    ::freecube::util::Logger::log<::freecube::util::LogLevel::FC_ERROR>( \
         __FILE__, __LINE__, __VA_ARGS__)
 
 #define LOG_CRITICAL(...) \
-    ::freecube::util::Logger::log<::freecube::util::LogLevel::CRITICAL>( \
+    ::freecube::util::Logger::log<::freecube::util::LogLevel::FC_CRITICAL>( \
         __FILE__, __LINE__, __VA_ARGS__)
 
 #endif

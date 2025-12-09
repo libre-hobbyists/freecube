@@ -44,8 +44,13 @@ include_directories(${CMAKE_SOURCE_DIR}/include)
 
 set(FREECUBE_SOURCES
   ${CMAKE_SOURCE_DIR}/src/main.cpp
+  ${CMAKE_SOURCE_DIR}/src/validate.cpp
 )
 
 set(FREECUBE_HEADERS
   ${CMAKE_SOURCE_DIR}/include/util/log.hpp
+  ${CMAKE_SOURCE_DIR}/include/dol/validate.hpp
+  ${CMAKE_SOURCE_DIR}/include/loader/iso.hpp
 )
+
+add_executable(freecube ${FREECUBE_SOURCES} ${FREECUBE_HEADERS})

@@ -1,22 +1,19 @@
-// Entrypoint
-// SPDX-License-Identifier: GPL-3.0-only
-//
-
 #if defined(_WIN32) || defined(_WIN64)
     #ifndef WIN32_LEAN_AND_MEAN
         #define WIN32_LEAN_AND_MEAN
     #endif
     #include <Windows.h>
 
-    int main(int argc, char **argv);
+    int main();
 
-    int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow) {
-        return main();
+    int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow) {
+        main();
     }
 #endif
 
 #include "util/log.hpp"
+#include <fstream>
 
-int main(int argc, char **argv) {
-    LOG_TRACE("System starting up...");
+int main() {
+    LOG_DEBUG("System starting up...");
 }
