@@ -73,8 +73,8 @@ namespace freecube::ISOLoader {
                 }
                 
                 for (std::size_t i = 0; i < sizeof(magic); ++i) {
-                    LOG_DEBUG("Expected: %u", magic[i]);
-                    LOG_DEBUG("Found: %u", m_data[i]);
+                    LOG_DEBUG("Expected: ", magic[i]);
+                    LOG_DEBUG("Found: ", m_data[i]);
 
                     if (m_data[i] != magic[i]) {
                         LOG_ERROR("Invalid boot.bin magic number! (Not a GameCube ISO file)");
