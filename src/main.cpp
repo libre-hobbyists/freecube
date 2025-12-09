@@ -15,6 +15,7 @@
 
 int main(int argc, char **argv) {
     using namespace freecube::ISOLoader;
+    using namespace freecube::dol;
 
     std::string iso_path;
 
@@ -35,6 +36,61 @@ int main(int argc, char **argv) {
     }
 
     ISOImage iso(iso_path);
+
+    // Basic DOL header info 
+    const auto dol_data = iso.get_dol();
+    LOG_INFO("DOL Size: ", dol_data.size());
+
+    std::string hex_dump;
+    for (size_t i = 0; i < std::min(size_t(32), dol_data.size()); i++) {
+        char buf[4];
+        snprintf(buf, sizeof(buf), "%02X ", dol_data[i]);
+        hex_dump += buf;
+    }
+    LOG_INFO("DOL Header (32bytes): ", hex_dump);
+
+    // Begin parsing actual header data
+    try {
+        DOLLoader dol(dol_data);
+        const auto& image = dol.image();
+        
+        LOG_INFO("DOL parsed successfully!");
+        
+        char ep_buf[32];
+        snprintf(ep_buf, sizeof(ep_buf), "0x%08X", image.entry_point);
+        LOG_INFO("Entry point: ", ep_buf);
+        
+        char bss_buf[128];
+        snprintf(bss_buf, sizeof(bss_buf), "0x%08X - 0x%08X (size: 0x%X)", 
+                 image.bss_address, 
+                 image.bss_address + image.bss_size,
+                 image.bss_size);
+        LOG_INFO("BSS: ", bss_buf);
+        
+        // Log text sections
+        for (size_t i = 0; i < image.text.size(); i++) {
+            if (image.text[i].size > 0) {
+                char text_buf[64];
+                snprintf(text_buf, sizeof(text_buf), "Text[%zu]: 0x%08X (size: 0x%X)", 
+                         i, image.text[i].load_address, image.text[i].size);
+                LOG_DEBUG(text_buf);
+            }
+        }
+        
+        // Log data sections
+        for (size_t i = 0; i < image.data.size(); i++) {
+            if (image.data[i].size > 0) {
+                char data_buf[64];
+                snprintf(data_buf, sizeof(data_buf), "Data[%zu]: 0x%08X (size: 0x%X)", 
+                         i, image.data[i].load_address, image.data[i].size);
+                LOG_DEBUG(data_buf);
+            }
+        }
+        
+    } catch (const std::exception& e) {
+        LOG_ERROR("Failed to parse DOL: ", e.what());
+        return -1;
+    }
 
     return 0;
 }
