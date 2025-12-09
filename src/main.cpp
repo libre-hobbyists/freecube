@@ -13,16 +13,26 @@
 
 #include "util/log.hpp"
 #include "loader/loader.hpp"
+#include "dol/dol_loader.hpp"
 #include <fstream>
 #include <iostream>
 
 int main() {
-    LOG_DEBUG("System starting up...");
+    using namespace freecube::ISOLoader;
 
-    freecube::ISOLoader::ISOImage iso("loz_ww.iso");
+    ISOImage iso("loz_ww.iso");
 
-    const uint8_t *boot = iso.data().data();
+    auto dol = iso.extract_file("main.dol");
+    iso.dump_fst();
 
-    LOG_DEBUG("Magic number is OK!");
+    if (!dol) {
+        LOG_CRITICAL("main.dol not found!");
+        return -1;
+    }
+
+    freecube::dol::DOLLoader loader(*dol);
+
+    LOG_INFO("Loaded DOL entrypoint => ", loader.image().entry_point);
+
     return 0;
 }
