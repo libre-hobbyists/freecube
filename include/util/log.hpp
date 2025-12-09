@@ -105,13 +105,11 @@ namespace freecube::util {
          */
         template<LogLevel Level, typename... Args>
         static void log(const char* file, int line, Args&&... args) {
-            if constexpr (Level >= LogLevel::FC_INFO) {
                 if (Level < LogCFG::min_level) {
                     return;
                 }
 
                 write_log<Level>(file, line, std::forward<Args>(args)...);
-            }
         }
 
     private:

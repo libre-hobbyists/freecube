@@ -23,6 +23,6 @@ int main() {
 
     const uint8_t *boot = iso.data().data();
 
-    std::cout << boot << std::endl;
+    LOG_DEBUG("Magic number is OK!");
     return 0;
 }
