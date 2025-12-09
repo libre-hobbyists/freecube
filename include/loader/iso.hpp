@@ -289,22 +289,35 @@ namespace freecube::ISOLoader {
                 LOG_ERROR("ISO is not a valid size!");
                 throw std::runtime_error("ISOImage: invalid size (not a multiple of 32kb)");
             }
-
-            constexpr std::uint8_t magic[] = { 0x47,0x5A,0x4C,0x45,0x30,0x31 };
-            LOG_TRACE("GameCube Magic: \"GLZE01\"");
+        
+            // GameCube discs start with a 6-byte game ID
+            // Format: System(1) + GameCode(2) + Region(1) + Maker(2)
+            // We just check that it's ASCII printable characters
+            // If not, **then** we panic.
 
             if (m_data.size() < 0x20) {
                 LOG_ERROR("Too small for boot.bin validation");
                 throw std::runtime_error("ISOImage: too small for boot.bin validation");
             }
+        
+            // Read the game ID (first 6 bytes)
+            std::string game_id(reinterpret_cast<const char*>(m_data.data()), 6);
+            LOG_INFO("Game ID: ", game_id);
 
-            for (std::size_t i = 0; i < sizeof(magic); ++i) {
-                if (m_data[i] != magic[i]) {
-                    LOG_ERROR("Invalid boot.bin magic number!");
-                    throw std::runtime_error("ISOImage: invalid boot.bin magic");
-                }
+            // Check if it starts with 'G' (GameCube ROM) or 'D' (Demofile(?))
+            if (m_data[0] != 'G' && m_data[0] != 'D') {
+                LOG_ERROR("Invalid GameCube disc ID! Expected 'G' or 'D', got: ", (char)m_data[0]);
+                throw std::runtime_error("ISOImage: invalid boot.bin magic");
             }
 
+            // Verify all 6 bytes are printable ASCII
+            for (std::size_t i = 0; i < 6; ++i) {
+                if (m_data[i] < 0x20 || m_data[i] > 0x7E) {
+                    LOG_ERROR("Invalid character in game ID at position ", i);
+                    throw std::runtime_error("ISOImage: invalid game ID");
+                }
+            }
+        
             LOG_TRACE("ISO validation OK.");
         }
 
