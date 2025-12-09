@@ -40,6 +40,24 @@ else()
   endif()
 endif()
 
+include(FetchContent)
+
+FetchContent_Declare(
+  yaml-cpp
+  GIT_REPOSITORY https://github.com/jbeder/yaml-cpp
+  GIT_TAG 0.8.0
+)
+
+set(YAML_CPP_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(YAML_CPP_BUILD_TOOLS OFF CACHE BOOL "" FORCE)
+set(YAML_CPP_BUILD_CONTRIB OFF CACHE BOOL "" FORCE)
+set(YAML_CPP_INSTALL OFF CACHE BOOL "" FORCE)
+
+# Tells CMake to not have a panic attack over yaml-cpp being on ~3.5x
+set(CMAKE_POLICY_DEFAULT_CMP0000 OLD)
+
+FetchContent_MakeAvailable(yaml-cpp)
+
 include_directories(${CMAKE_SOURCE_DIR}/include)
 
 set(FREECUBE_SOURCES
@@ -64,3 +82,5 @@ add_compile_definitions(FREECUBE_CMAKE_ARCH_TARGET="${CMAKE_SYSTEM_PROCESSOR}")
 add_compile_definitions(FREECUBE_CMAKE_BUILD_TIME="${FREECUBE_BUILD_TIME}")
 
 add_executable(freecube ${FREECUBE_SOURCES} ${FREECUBE_HEADERS})
+
+target_link_libraries(freecube PRIVATE yaml-cpp::yaml-cpp)

@@ -12,8 +12,8 @@ This project relies on CMake for building, it is required to build this. CMake c
 Once the project is opened in Visual Studio (or your chosen IDE with cmake and a compiler ready), you can configure the project:
 
 ```sh
-# You can choose your own -G generator!
-cmake -S . -B build -G Ninja <custom flags>
+# You can choose your own -G generator! (cmake_policy flag is required!)
+cmake -S . -B build -G Ninja <custom flags> -DCMAKE_POLICY_VERSION_MINIMUM=3.5
 ```
 
 > [!NOTE]
