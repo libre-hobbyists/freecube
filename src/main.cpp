@@ -3,9 +3,11 @@
         #define WIN32_LEAN_AND_MEAN
     #endif
     #include <Windows.h>
+    #include <shellapi.h>
 #endif
 
 #include "util/log.hpp"
+#include "util/macros.hpp"
 #include "loader/loader.hpp"
 #include "dol/dol_loader.hpp"
 #include <fstream>
@@ -29,7 +31,7 @@ int main(int argc, char **argv) {
         if (arg.rfind("--iso=", 0) == 0) {
             iso_path = arg.substr(6);
         } else if (arg == "--iso" && i + 1 < argc) {
-            // Next arg is the path
+            // Next arg is the path (it has to be)
             iso_path = argv[++i];
         }
     }
@@ -47,7 +49,7 @@ int main(int argc, char **argv) {
     LOG_INFO("DOL Size: ", dol_data.size());
 
     std::string hex_dump;
-    for (size_t i = 0; i < std::min(size_t(32), dol_data.size()); i++) {
+    for (size_t i = 0; i < min(size_t(32), dol_data.size()); i++) {
         char buf[4];
         snprintf(buf, sizeof(buf), "%02X ", dol_data[i]);
         hex_dump += buf;
