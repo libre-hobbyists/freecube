@@ -87,4 +87,4 @@ This software is provided for educational and preservation purposes. Users are r
 
 ---
 
-> With <3 by [Libre Hobbyists](https://github.com/libre-hobbyists) and its many contributors.
+> With <3 by [Libre Hobbyists](https://github.com/libre-hobbyists) and its contributors.
