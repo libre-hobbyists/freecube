@@ -42,8 +42,11 @@ namespace freecube::ISOLoader {
         std::optional<std::vector<std::uint8_t>>
         extract_file(const std::string& path) const
         {
-            dump_fst_header();
-            dump_fst();
+            // Put per-file dump under a very verbose gate, that being debug/trace only
+            if(util::LogCFG::min_level < util::LogLevel::FC_DEBUG) {
+                dump_fst_header();
+                dump_fst();
+            }
 
             LOG_TRACE("Extracting file: ", path);
 

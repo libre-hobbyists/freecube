@@ -54,6 +54,7 @@ set(YAML_CPP_BUILD_CONTRIB OFF CACHE BOOL "" FORCE)
 set(YAML_CPP_INSTALL OFF CACHE BOOL "" FORCE)
 
 # Tells CMake to not have a panic attack over yaml-cpp being on ~3.5x
+# NOTE: It panics anyways and I'm not sure how to fix that
 set(CMAKE_POLICY_DEFAULT_CMP0000 OLD)
 
 FetchContent_MakeAvailable(yaml-cpp)
