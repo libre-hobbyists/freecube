@@ -1,5 +1,5 @@
 name: Question
-description: Ask a question about freecube
+description: Ask a question about freecube (this can be any kind of question)
 title: "[QUESTION] "
 labels: ["question"]
 body:
